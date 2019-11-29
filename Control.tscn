@@ -1,0 +1,115 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Control.gd" type="Script" id=1]
+[ext_resource path="res://TitilliumWeb-SemiBold.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://TitilliumWeb-Regular.ttf" type="DynamicFontData" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=2]
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=3]
+font_data = ExtResource( 3 )
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.294118, 0.294118, 0.294118, 1 )
+
+[node name="Label" type="Label" parent="."]
+anchor_right = 1.0
+margin_bottom = 44.0
+custom_fonts/font = SubResource( 1 )
+text = "TELT"
+align = 1
+valign = 1
+
+[node name="GenererLister" type="Button" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = -90.0
+margin_right = -5.0
+margin_bottom = -49.0
+hint_tooltip = "Lagrer .txt fil med TAG i
+C:\\Appl"
+text = "Generer lister"
+
+[node name="Reload" type="Button" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = -45.0
+margin_right = -5.0
+margin_bottom = -5.0
+hint_tooltip = "Søker gjennom kopiert tekst på nytt"
+text = "Søk etter TAG"
+
+[node name="TAG" type="Label" parent="."]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -175.0
+margin_bottom = -48.0
+custom_fonts/font = SubResource( 2 )
+text = "TAGS"
+align = 1
+
+[node name="Taghub" type="CheckBox" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -105.0
+margin_top = 100.0
+margin_right = 120.0
+margin_bottom = 134.0
+hint_tooltip = "Åpener TagHub når lister blir generert"
+custom_fonts/font = SubResource( 3 )
+text = "Åpne TagHub ved generering"
+
+[node name="Prefix" type="CheckBox" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -105.0
+margin_top = 65.0
+margin_right = 120.0
+margin_bottom = 99.0
+hint_tooltip = "PÅ ved opplasting til TagHub
+Tar bort 190x fra TAG"
+custom_fonts/font = SubResource( 3 )
+pressed = true
+text = "Fjern 1900 prefix"
+
+[node name="Onefile" type="CheckBox" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -105.0
+margin_top = 25.0
+margin_right = 135.0
+margin_bottom = 59.0
+hint_tooltip = "PÅ ved opplasting til TagHub
+Lagrer separate filer per platform. 
+"
+custom_fonts/font = SubResource( 3 )
+pressed = true
+text = "Separate filer for hver platform"
+[connection signal="pressed" from="GenererLister" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="Reload" to="." method="_on_Reload_pressed"]
+[connection signal="pressed" from="Prefix" to="." method="_on_Reload_pressed"]
+[connection signal="pressed" from="Onefile" to="." method="_on_Reload_pressed"]
