@@ -64,15 +64,22 @@ func is_tag(text):
 				TAGR.append(text)
 				rp += 1
 		else:
-			TAG.append(text)
-			if text.begins_with('L'):
+			if text.begins_with('L') and not TAG.has(text):
 				lq += 1
-			if text.begins_with('A'):
+				TAG.append(text)
+				print(text)
+			if text.begins_with('A') and not TAG.has(text):
 				p1 += 1
-			if text.begins_with('D'):
+				TAG.append(text)
+				print(text)
+			if text.begins_with('D') and not TAG.has(text):
 				dp += 1
-			if text.begins_with('R'):
+				TAG.append(text)
+				print(text)
+			if text.begins_with('R') and not TAG.has(text):
 				rp += 1
+				TAG.append(text)
+				print(text)
 	else:
 		if $Onefile.pressed:
 			if text[5] == 'L' and not TAGL.has(text):
@@ -88,15 +95,18 @@ func is_tag(text):
 				TAGR.append(text)
 				rp += 1
 		else:
-			TAG.append(text)
-			if text[5] == 'L':
+			if text[5] == 'L' and not TAG.has(text):
 				lq += 1
-			if text[5] == 'A':
+				TAG.append(text)
+			if text[5] == 'A' and not TAG.has(text):
 				p1 += 1
-			if text[5] == 'D':
+				TAG.append(text)
+			if text[5] == 'D' and not TAG.has(text):
 				dp += 1
-			if text[5] == 'R':
+				TAG.append(text)
+			if text[5] == 'R' and not TAG.has(text):
 				rp += 1
+				TAG.append(text)
 	tot = lq + p1 + dp + rp
 	return true
 
