@@ -4,12 +4,12 @@
 [ext_resource path="res://TitilliumWeb-SemiBold.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://TitilliumWeb-Regular.ttf" type="DynamicFontData" id=3]
 
-[sub_resource type="DynamicFont" id=1]
-font_data = ExtResource( 2 )
-
 [sub_resource type="DynamicFont" id=2]
 use_mipmaps = true
 use_filter = true
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=3]
@@ -24,14 +24,6 @@ script = ExtResource( 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.294118, 0.294118, 0.294118, 1 )
-
-[node name="Label" type="Label" parent="."]
-anchor_right = 1.0
-margin_bottom = 44.0
-custom_fonts/font = SubResource( 1 )
-text = "TELT"
-align = 1
-valign = 1
 
 [node name="GenererLister" type="Button" parent="."]
 anchor_top = 1.0
@@ -65,6 +57,19 @@ margin_bottom = -48.0
 custom_fonts/font = SubResource( 2 )
 text = "TAGS"
 align = 1
+
+[node name="Label" type="Label" parent="."]
+anchor_right = 1.0
+margin_bottom = 44.0
+custom_fonts/font = SubResource( 1 )
+text = "TELT"
+align = 1
+valign = 2
+
+[node name="Version" type="Label" parent="."]
+margin_right = 40.0
+margin_bottom = 14.0
+text = "v1.0.2"
 
 [node name="Taghub" type="CheckBox" parent="."]
 anchor_left = 0.5
