@@ -1,120 +1,181 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Control.gd" type="Script" id=1]
 [ext_resource path="res://TitilliumWeb-SemiBold.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://TitilliumWeb-Regular.ttf" type="DynamicFontData" id=3]
 
 [sub_resource type="DynamicFont" id=2]
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 2 )
+size = 14
+font_data = ExtResource( 3 )
 
 [sub_resource type="DynamicFont" id=1]
-font_data = ExtResource( 2 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 3 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.317647, 0.376471, 0.392157, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
 
 [sub_resource type="DynamicFont" id=3]
 font_data = ExtResource( 3 )
 
-[node name="Control" type="Control"]
+[sub_resource type="DynamicFont" id=5]
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=6]
+font_data = ExtResource( 2 )
+
+[node name="TagFinder" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Bckground" type="ColorRect" parent="."]
+[node name="MC" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.294118, 0.294118, 0.294118, 1 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="GenererLister" type="Button" parent="."]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = -90.0
-margin_right = -5.0
-margin_bottom = -49.0
-hint_tooltip = "Lagrer .txt fil med TAG i
-C:\\Appl"
-text = "Generer lister"
+[node name="VBC" type="VBoxContainer" parent="MC"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 430.0
+margin_bottom = 430.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="Reload" type="Button" parent="."]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = -45.0
-margin_right = -5.0
-margin_bottom = -5.0
-hint_tooltip = "Søker gjennom kopiert tekst på nytt"
-text = "Søk etter TAG"
-
-[node name="TAG" type="Label" parent="."]
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-margin_top = -175.0
-margin_bottom = -48.0
+[node name="Label" type="Label" parent="MC/VBC"]
+margin_right = 410.0
+margin_bottom = 22.0
 custom_fonts/font = SubResource( 2 )
-text = "TAGS"
-align = 1
-
-[node name="Label" type="Label" parent="."]
-anchor_right = 1.0
-margin_bottom = 44.0
-custom_fonts/font = SubResource( 1 )
 text = "TELT"
 align = 1
 valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Version" type="Label" parent="."]
-margin_right = 40.0
-margin_bottom = 14.0
-text = "v1.0.2"
+[node name="TAG" type="Label" parent="MC/VBC"]
+margin_top = 26.0
+margin_right = 410.0
+margin_bottom = 52.0
+custom_fonts/font = SubResource( 1 )
+text = "TAGS"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Taghub" type="CheckBox" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -105.0
-margin_top = 100.0
-margin_right = 120.0
-margin_bottom = 134.0
-hint_tooltip = "Åpener TagHub når lister blir generert"
-custom_fonts/font = SubResource( 3 )
-text = "Åpne TagHub ved generering"
+[node name="TagListe" type="ScrollContainer" parent="MC/VBC"]
+margin_top = 56.0
+margin_right = 410.0
+margin_bottom = 260.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/bg = SubResource( 4 )
 
-[node name="Prefix" type="CheckBox" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -105.0
-margin_top = 65.0
-margin_right = 120.0
-margin_bottom = 99.0
-hint_tooltip = "PÅ ved opplasting til TagHub
-Tar bort 190x fra TAG"
-custom_fonts/font = SubResource( 3 )
-pressed = true
-text = "Fjern 1900 prefix"
+[node name="VBC" type="VBoxContainer" parent="MC/VBC/TagListe"]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 408.0
+margin_bottom = 202.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="Multifile" type="CheckBox" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -105.0
-margin_top = 25.0
-margin_right = 135.0
-margin_bottom = 59.0
+[node name="Multifile" type="CheckBox" parent="MC/VBC"]
+margin_top = 264.0
+margin_right = 410.0
+margin_bottom = 298.0
 hint_tooltip = "PÅ ved opplasting til TagHub
 Lagrer separate filer per platform. 
 "
 custom_fonts/font = SubResource( 3 )
 pressed = true
 text = "Separate filer for hver platform"
-[connection signal="pressed" from="GenererLister" to="." method="_on_GenererLister_pressed"]
-[connection signal="pressed" from="Reload" to="." method="_on_Reload_pressed"]
-[connection signal="pressed" from="Prefix" to="." method="_on_Reload_pressed"]
-[connection signal="pressed" from="Multifile" to="." method="_on_Reload_pressed"]
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Prefix" type="CheckBox" parent="MC/VBC"]
+margin_top = 302.0
+margin_right = 410.0
+margin_bottom = 336.0
+hint_tooltip = "PÅ ved opplasting til TagHub
+Tar bort 190x fra TAG"
+custom_fonts/font = SubResource( 3 )
+pressed = true
+text = "Fjern 1900 prefix"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Taghub" type="CheckBox" parent="MC/VBC"]
+margin_top = 340.0
+margin_right = 410.0
+margin_bottom = 374.0
+hint_tooltip = "Åpener TagHub når lister blir generert"
+custom_fonts/font = SubResource( 3 )
+text = "Åpne TagHub ved generering"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBC" type="HBoxContainer" parent="MC/VBC"]
+margin_top = 378.0
+margin_right = 410.0
+margin_bottom = 410.0
+custom_constants/separation = 5
+alignment = 1
+
+[node name="GenererLister" type="Button" parent="MC/VBC/HBC"]
+margin_left = 95.0
+margin_right = 202.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 100, 20 )
+hint_tooltip = "Lagrer .txt fil med TAG i
+Documents"
+custom_fonts/font = SubResource( 5 )
+text = "Generer lister"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Reload" type="Button" parent="MC/VBC/HBC"]
+margin_left = 207.0
+margin_right = 314.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 100, 20 )
+hint_tooltip = "Søker gjennom kopiert tekst på nytt"
+custom_fonts/font = SubResource( 6 )
+text = "Søk etter TAG"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Version" type="Label" parent="."]
+margin_left = 8.0
+margin_top = 432.0
+margin_right = 52.0
+margin_bottom = 446.0
+text = "v1.1.2"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="MC/VBC/Multifile" to="." method="_on_Reload_pressed"]
+[connection signal="pressed" from="MC/VBC/Prefix" to="." method="_on_Reload_pressed"]
+[connection signal="pressed" from="MC/VBC/HBC/GenererLister" to="." method="_on_GenererLister_pressed"]
+[connection signal="pressed" from="MC/VBC/HBC/Reload" to="." method="_on_Reload_pressed"]
