@@ -8,7 +8,7 @@ var TAGA = []   # Liste for P1 tagnummer
 var TAGD = []   # Liste for DP tagnummer
 var TAGR = []   # Liste for RP tagnummer
 
-var TAGlabel = preload("res://TAG.tscn") # Label som viser funnede tag i scrollboxen
+var TAGlabel = preload("res://Tagbutton.tscn") # Label som viser funnede tag i scrollboxen
 
 
 func _ready():
@@ -29,21 +29,16 @@ func search():
 		words += 1
 		charcnt += len(textList[i])
 		is_tag(textList[i])
-	# Teller antall tagnummer i listene
-	var lq = len(TAGL)
-	var p1 = len(TAGA)
-	var dp = len(TAGD)
-	var rp = len(TAGR)
-	var tot = lq + p1 + dp + rp
 	
-	$MC/VBC/Label.text = 'Søkte gjennom ' + str(words) + ' ord og ' + str(charcnt) + ' tegn'
-	$MC/VBC/TAG.text = 'Fant følgende TAG: LQ: ' + str(lq) + ' P1: ' + str(p1) + ' DP: ' + str(dp) + ' RP: ' + str(rp) + ' Total: ' + str(tot)
+	separate_tag()
+	count_tag()
 	fill_scrollbox()
-	
+	$MC/VBC/Label.text = 'Søkte gjennom ' + str(words) + ' ord og ' + str(charcnt) + ' tegn'
+
 
 # Får ett og ett ord fra search funksjonen og ser om det matcher tag formatet til JSF
 # Alle matcher blir puttet i lister
-func is_tag(text): # TODO: Overkomplisert? Dele opp i flere sorteringsfunksjoner, kanskje.
+func is_tag(text):
 	if len(text) < 9:
 		return false
 	for x in range(0, 3):
@@ -56,29 +51,25 @@ func is_tag(text): # TODO: Overkomplisert? Dele opp i flere sorteringsfunksjoner
 	if text[6] != '-':
 		return false
 	
-	if $MC/VBC/Prefix.pressed: # Fjernet 1900 prefix
-		text = text.lstrip('123456790-.') 
-		if text.begins_with('L') and not TAGL.has(text):
-			TAGL.append(text)
-		if text.begins_with('A') and not TAGA.has(text):
-			TAGA.append(text)
-		if text.begins_with('D') and not TAGD.has(text):
-			TAGD.append(text)
-		if text.begins_with('R') and not TAGR.has(text):
-			TAGR.append(text)
+	if $MC/VBC/Prefix.pressed: # Fjerner 1900 prefix
+		text = text.lstrip('123456790-.')
+		if not TAG.has(text):
+			TAG.append(text)
 	else: # Lagrer TAG med 1900 prefix
-		if text[5] == 'L' and not TAGL.has(text):
-			TAGL.append(text)
-		if text[5] == 'A' and not TAGA.has(text):
-			TAGA.append(text)
-		if text[5] == 'D' and not TAGD.has(text):
-			TAGD.append(text)
-		if text[5] == 'R' and not TAGR.has(text):
-			TAGR.append(text)
+		if not TAG.has(text):
+			TAG.append(text)
 	
-	TAG = TAGL + TAGA + TAGD + TAGR # Lager en felles liste med alle TAG
+	TAG.sort()
 
-	return true # TODO: Return text i stedet?
+
+# Teller antall tagnummer i listene
+func count_tag():
+	var lq = len(TAGL)
+	var p1 = len(TAGA)
+	var dp = len(TAGD)
+	var rp = len(TAGR)
+	var tot = len(TAG)
+	$MC/VBC/TAG.text = 'Fant ' + str(tot) + ' TAG. LQ: ' + str(lq) + ' P1: ' + str(p1) + ' DP: ' + str(dp) + ' RP: ' + str(rp)
 
 
 # Fyller scrollboxen med tagene som er funnet
@@ -87,8 +78,54 @@ func fill_scrollbox():
 		child.queue_free()
 	for tag in TAG:
 		var a = TAGlabel.instance()
-		a.text = tag
+		a.get_child(0).text = tag
+		a.index = tag
+		a.connect("delte_tag", self, "_on_Delete_tag")
+		a.connect("open_stid", self, "_on_Open_STID")
 		$MC/VBC/TagListe/VBC.add_child(a)
+
+
+# Separerer tag per platform
+func separate_tag():
+	TAGL = []
+	TAGA = []
+	TAGD = []
+	TAGR = []
+	
+	if $MC/VBC/Prefix.pressed: 
+		for tag in TAG:
+			if tag.begins_with('L') and not TAGL.has(tag):
+				TAGL.append(tag)
+			if tag.begins_with('A') and not TAGA.has(tag):
+				TAGA.append(tag)
+			if tag.begins_with('D') and not TAGD.has(tag):
+				TAGD.append(tag)
+			if tag.begins_with('R') and not TAGR.has(tag):
+				TAGR.append(tag)
+	else:
+		for tag in TAG:
+			if tag[5].begins_with('L') and not TAGL.has(tag):
+				TAGL.append(tag)
+			if tag[5].begins_with('A') and not TAGA.has(tag):
+				TAGA.append(tag)
+			if tag[5].begins_with('D') and not TAGD.has(tag):
+				TAGD.append(tag)
+			if tag[5].begins_with('R') and not TAGR.has(tag):
+				TAGR.append(tag)
+
+
+# Funkjson for å slette TAG før lagring
+func _on_Delete_tag(index):
+	var a = TAG.find(index)
+	TAG.remove(a)
+	fill_scrollbox()
+	separate_tag()
+	count_tag()
+
+
+# Funksjon for å åpne et STID søk med valgt TAG
+func _on_Open_STID(index):
+	OS.shell_open('http://tips.statoil.no/TagDetails.aspx?inst_code=JSV&tag_no=' + str(index) + '&search=tag')
 
 
 # Funksjon for å lagre tag i .txt filer
@@ -109,10 +146,12 @@ func _on_GenererLister_pressed():
 		save(TAGA, 'JSA')
 		save(TAGD, 'JSD')
 		save(TAGR, 'JSR')
-	if not $MC/VBC/Multifile.pressed: # Lagrer felles lister
+	
+	if not $MC/VBC/Multifile.pressed: # Lagrer felles liste
 		save(TAG, 'JSF')
 	
 	$MC/VBC/Label.text = 'Lister opprettet i ' + dir
+	OS.shell_open(dir)
 	
 	if $MC/VBC/Taghub.pressed: # Åpner TagHub
 		OS.shell_open('https://taghub.equinor.com/')
@@ -125,7 +164,6 @@ func _on_Reload_pressed():
 	TAGD = []
 	TAGR = []
 	TAG = []
-	
 	search()
 
 

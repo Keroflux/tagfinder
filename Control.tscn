@@ -4,23 +4,27 @@
 [ext_resource path="res://TitilliumWeb-SemiBold.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://TitilliumWeb-Regular.ttf" type="DynamicFontData" id=3]
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=1]
 size = 14
 font_data = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=2]
 use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=3]
+content_margin_left = 5.0
+content_margin_right = 5.0
+content_margin_top = 5.0
+content_margin_bottom = 5.0
 bg_color = Color( 0.317647, 0.376471, 0.392157, 1 )
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=4]
 font_data = ExtResource( 3 )
 
 [sub_resource type="DynamicFont" id=5]
@@ -61,7 +65,7 @@ size_flags_vertical = 3
 [node name="Label" type="Label" parent="MC/VBC"]
 margin_right = 410.0
 margin_bottom = 22.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 1 )
 text = "TELT"
 align = 1
 valign = 2
@@ -73,7 +77,7 @@ __meta__ = {
 margin_top = 26.0
 margin_right = 410.0
 margin_bottom = 52.0
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
 text = "TAGS"
 align = 1
 __meta__ = {
@@ -86,13 +90,14 @@ margin_right = 410.0
 margin_bottom = 260.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/bg = SubResource( 4 )
+custom_styles/bg = SubResource( 3 )
+scroll_horizontal_enabled = false
 
 [node name="VBC" type="VBoxContainer" parent="MC/VBC/TagListe"]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 408.0
-margin_bottom = 202.0
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 405.0
+margin_bottom = 199.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -103,7 +108,7 @@ margin_bottom = 298.0
 hint_tooltip = "PÅ ved opplasting til TagHub
 Lagrer separate filer per platform. 
 "
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 pressed = true
 text = "Separate filer for hver platform"
 __meta__ = {
@@ -116,7 +121,7 @@ margin_right = 410.0
 margin_bottom = 336.0
 hint_tooltip = "PÅ ved opplasting til TagHub
 Tar bort 190x fra TAG"
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 pressed = true
 text = "Fjern 1900 prefix"
 __meta__ = {
@@ -128,7 +133,7 @@ margin_top = 340.0
 margin_right = 410.0
 margin_bottom = 374.0
 hint_tooltip = "Åpener TagHub når lister blir generert"
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 text = "Åpne TagHub ved generering"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -171,7 +176,7 @@ margin_left = 8.0
 margin_top = 432.0
 margin_right = 52.0
 margin_bottom = 446.0
-text = "v1.1.2"
+text = "v1.2"
 __meta__ = {
 "_edit_use_anchors_": false
 }
