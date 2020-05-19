@@ -3,6 +3,7 @@ extends Control
 signal delte_tag
 signal open_stid
 var index = -1
+var indexP = -1
 
 func _ready():
 	var a = StyleBoxFlat.new()
@@ -24,7 +25,7 @@ func _ready():
 
 
 func _on_Delete_pressed():
-	emit_signal("delte_tag", index)
+	emit_signal("delte_tag", indexP)
 
 
 func _on_STID_pressed():

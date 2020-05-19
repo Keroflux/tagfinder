@@ -2,6 +2,10 @@ extends Control
 
 var dir = OS.get_system_dir(2) # Får adressen til dokumenter. Brukes til lagring
 
+var re = RegEx.new()
+var manuell = "[0-9]\\d*-[A-Z]-[A-Z]\\w+-[0-9]\\d+" # Finner tag med format 1903-A-VG23-0489B med og uten prefix
+var vanlig = "[0-9]{0,4}-?[A-Z]{1}-[0-9]{2}[A-Z]{2,4}[0-9]{3,4}[A-D]?" # Finner 1900-A-23PSV2671B med og uten prefix
+
 var TAG =  []   # Liste for alle tagnummer
 var TAGL = []   # Liste for LQ tagnummer
 var TAGA = []   # Liste for P1 tagnummer
@@ -14,53 +18,52 @@ var TAGlabel = preload("res://Tagbutton.tscn") # Label som viser funnede tag i s
 func _ready():
 	search() # Kjører et søk ved oppstart av programmet
 
-
-# Søker gjennom teksten fra utklippstaveln. Deler den opp i ord som sendes
-# ett og ett til is_tag funksjonen
+#Søker gjennom text fra utklipsstavlen og skjekker dem opp mot RegEx
+#Alle matcher blir lagt i en liste, sortert, telt, og plassert i scrollboxen
 func search():
-	var words = 0
-	var charcnt = 0
-	var message = OS.get_clipboard() # Får teksten fra clipboardet til PCen
-	var textList = message.split('\n')
-	var jointList = textList.join(' ')
-	textList = jointList.split(' ')
+	var result
+	var charct = 0
+	var text = OS.get_clipboard() # Får teksten fra clipboardet til PCen
+	charct = text.length()
+	re.compile(vanlig)
+	for result in re.search_all(text):
+		var t = result.get_string()
+		t = t.lstrip("0123456789-")
+		if TAG.has(t):
+			pass
+		else:
+			TAG.append(t)
+	re.compile(manuell)
+	for result in re.search_all(text):
+		var t = result.get_string()
+		t = t.lstrip("0123456789-")
+		if TAG.has(t):
+			pass
+		else:
+			TAG.append(t)
+	TAG.sort()
 	
-	for i in range(len(textList)):
-		words += 1
-		charcnt += len(textList[i])
-		is_tag(textList[i])
-	
+	add_prefix()
 	separate_tag()
 	count_tag()
 	fill_scrollbox()
-	$MC/VBC/Label.text = 'Søkte gjennom ' + str(words) + ' ord og ' + str(charcnt) + ' tegn'
+	$MC/VBC/Label.text = 'Søkte gjennom ' + str(charct) + ' tegn'
 
-
-# Får ett og ett ord fra search funksjonen og ser om det matcher tag formatet til JSF
-# Alle matcher blir puttet i lister
-func is_tag(text):
-	if len(text) < 9:
-		return false
-	for x in range(0, 3):
-		if not text[x].is_valid_integer():
-			return false
-	if text[4] != '-':
-		return false
-	if not text[5].is_valid_identifier():
-		return false
-	if text[6] != '-':
-		return false
-	
-	if $MC/VBC/Prefix.pressed: # Fjerner 1900 prefix
-		text = text.lstrip('123456790-.')
-		if not TAG.has(text):
-			TAG.append(text)
-	else: # Lagrer TAG med 1900 prefix
-		if not TAG.has(text):
-			TAG.append(text)
-	
-	TAG.sort()
-
+# Legger til prefix på tag om det er valgt
+func add_prefix():
+	if not $MC/VBC/Prefix.pressed:
+		var newTAG = []
+		for tag in TAG.size():
+			var t = TAG[tag]
+			if t.begins_with('L'):
+				t = "1900-" + t
+			elif t.begins_with('A'):
+				t = "1901-" + t
+			elif t.begins_with('D'):
+				t = "1902-" + t
+			elif t.begins_with('R'):
+				t = "1903-" + t
+			TAG[tag] = t
 
 # Teller antall tagnummer i listene
 func count_tag():
@@ -71,7 +74,6 @@ func count_tag():
 	var tot = len(TAG)
 	$MC/VBC/TAG.text = 'Fant ' + str(tot) + ' TAG. LQ: ' + str(lq) + ' P1: ' + str(p1) + ' DP: ' + str(dp) + ' RP: ' + str(rp)
 
-
 # Fyller scrollboxen med tagene som er funnet
 func fill_scrollbox():
 	for child in $MC/VBC/TagListe/VBC.get_children():
@@ -80,10 +82,10 @@ func fill_scrollbox():
 		var a = TAGlabel.instance()
 		a.get_child(0).text = tag
 		a.index = tag
+		a.indexP = tag
 		a.connect("delte_tag", self, "_on_Delete_tag")
 		a.connect("open_stid", self, "_on_Open_STID")
 		$MC/VBC/TagListe/VBC.add_child(a)
-
 
 # Separerer tag per platform
 func separate_tag():
@@ -113,20 +115,17 @@ func separate_tag():
 			if tag[5].begins_with('R') and not TAGR.has(tag):
 				TAGR.append(tag)
 
-
 # Funkjson for å slette TAG før lagring
-func _on_Delete_tag(index):
-	var a = TAG.find(index)
+func _on_Delete_tag(indexP):
+	var a = TAG.find(indexP)
 	TAG.remove(a)
 	fill_scrollbox()
 	separate_tag()
 	count_tag()
 
-
 # Funksjon for å åpne et STID søk med valgt TAG
 func _on_Open_STID(index):
 	OS.shell_open('http://tips.statoil.no/TagDetails.aspx?inst_code=JSV&tag_no=' + str(index) + '&search=tag')
-
 
 # Funksjon for å lagre tag i .txt filer
 func save(text, id):
@@ -137,7 +136,6 @@ func save(text, id):
 		save.open(dir + '\\tagListe' + id + '.txt', File.WRITE)
 		save.store_line(tagsort)
 		save.close()
-
 
 # Knapp for generering av lister
 func _on_GenererLister_pressed():
@@ -156,7 +154,6 @@ func _on_GenererLister_pressed():
 	if $MC/VBC/Taghub.pressed: # Åpner TagHub
 		OS.shell_open('https://taghub.equinor.com/')
 
-
 # Knapp for last/søk på nytt
 func _on_Reload_pressed():
 	TAGL = []
@@ -165,7 +162,6 @@ func _on_Reload_pressed():
 	TAGR = []
 	TAG = []
 	search()
-
 
 # TODO: lage funksjon for å velge hvor filene skal opprettes
 func new_dir(path):

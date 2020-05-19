@@ -18,11 +18,11 @@ content_margin_left = 5.0
 content_margin_right = 5.0
 content_margin_top = 5.0
 content_margin_bottom = 5.0
-bg_color = Color( 0.317647, 0.376471, 0.392157, 1 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
+bg_color = Color( 0.431373, 0.431373, 0.431373, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
 
 [sub_resource type="DynamicFont" id=4]
 font_data = ExtResource( 3 )
@@ -37,6 +37,14 @@ font_data = ExtResource( 2 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.121569, 0.133333, 0.137255, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -176,7 +184,7 @@ margin_left = 8.0
 margin_top = 432.0
 margin_right = 52.0
 margin_bottom = 446.0
-text = "v1.2"
+text = "v2.0"
 __meta__ = {
 "_edit_use_anchors_": false
 }
