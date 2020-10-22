@@ -1,9 +1,10 @@
 extends Control
 
+var version = "v2.1"
 var dir = OS.get_system_dir(2) # Får adressen til dokumenter. Brukes til lagring
 
 var re = RegEx.new()
-var manuell = "[0-9]\\d*-[A-Z]-[A-Z]\\w+-[0-9]\\d+" # Finner tag med format 1903-A-VG23-0489B med og uten prefix
+var manuell = "[0-9]{0,4}-?[A-Z]-[A-Z]\\w+-[0-9]\\d+" # Finner tag med format 1903-A-VG23-0489B med og uten prefix
 var vanlig = "[0-9]{0,4}-?[A-Z]{1}-[0-9]{2}[A-Z]{2,4}[0-9]{3,4}[A-D]?" # Finner 1900-A-23PSV2671B med og uten prefix
 
 var TAG =  []   # Liste for alle tagnummer
@@ -21,7 +22,6 @@ func _ready():
 #Søker gjennom text fra utklipsstavlen og skjekker dem opp mot RegEx
 #Alle matcher blir lagt i en liste, sortert, telt, og plassert i scrollboxen
 func search():
-	var result
 	var charct = 0
 	var text = OS.get_clipboard() # Får teksten fra clipboardet til PCen
 	charct = text.length()
@@ -52,7 +52,6 @@ func search():
 # Legger til prefix på tag om det er valgt
 func add_prefix():
 	if not $MC/VBC/Prefix.pressed:
-		var newTAG = []
 		for tag in TAG.size():
 			var t = TAG[tag]
 			if t.begins_with('L'):
@@ -125,7 +124,7 @@ func _on_Delete_tag(indexP):
 
 # Funksjon for å åpne et STID søk med valgt TAG
 func _on_Open_STID(index):
-	OS.shell_open('http://tips.statoil.no/TagDetails.aspx?inst_code=JSV&tag_no=' + str(index) + '&search=tag')
+	OS.shell_open("https://stid.equinor.com/JSV/tag/" + str(index))
 
 # Funksjon for å lagre tag i .txt filer
 func save(text, id):
