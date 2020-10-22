@@ -151,7 +151,7 @@ func _on_GenererLister_pressed():
 	OS.shell_open(dir)
 	
 	if $MC/VBC/Taghub.pressed: # Åpner TagHub
-		OS.shell_open('https://taghub.equinor.com/')
+		OS.shell_open("https://echohub.equinor.com/")
 
 # Knapp for last/søk på nytt
 func _on_Reload_pressed():
