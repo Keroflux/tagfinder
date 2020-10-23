@@ -19,6 +19,7 @@ var TAGlabel = preload("res://Tagbutton.tscn") # Label som viser funnede tag i s
 func _ready():
 	search() # Kjører et søk ved oppstart av programmet
 
+
 #Søker gjennom text fra utklipsstavlen og skjekker dem opp mot RegEx
 #Alle matcher blir lagt i en liste, sortert, telt, og plassert i scrollboxen
 func search():
@@ -49,6 +50,7 @@ func search():
 	fill_scrollbox()
 	$MC/VBC/Label.text = 'Søkte gjennom ' + str(charct) + ' tegn'
 
+
 # Legger til prefix på tag om det er valgt
 func add_prefix():
 	if not $MC/VBC/Prefix.pressed:
@@ -64,6 +66,7 @@ func add_prefix():
 				t = "1903-" + t
 			TAG[tag] = t
 
+
 # Teller antall tagnummer i listene
 func count_tag():
 	var lq = len(TAGL)
@@ -72,6 +75,7 @@ func count_tag():
 	var rp = len(TAGR)
 	var tot = len(TAG)
 	$MC/VBC/TAG.text = 'Fant ' + str(tot) + ' TAG. LQ: ' + str(lq) + ' P1: ' + str(p1) + ' DP: ' + str(dp) + ' RP: ' + str(rp)
+
 
 # Fyller scrollboxen med tagene som er funnet
 func fill_scrollbox():
@@ -85,6 +89,7 @@ func fill_scrollbox():
 		a.connect("delte_tag", self, "_on_Delete_tag")
 		a.connect("open_stid", self, "_on_Open_STID")
 		$MC/VBC/TagListe/VBC.add_child(a)
+
 
 # Separerer tag per platform
 func separate_tag():
@@ -114,6 +119,7 @@ func separate_tag():
 			if tag[5].begins_with('R') and not TAGR.has(tag):
 				TAGR.append(tag)
 
+
 # Funkjson for å slette TAG før lagring
 func _on_Delete_tag(indexP):
 	var a = TAG.find(indexP)
@@ -121,6 +127,7 @@ func _on_Delete_tag(indexP):
 	fill_scrollbox()
 	separate_tag()
 	count_tag()
+
 
 # Funksjon for å åpne et STID søk med valgt TAG
 func _on_Open_STID(index):
@@ -135,6 +142,7 @@ func save(text, id):
 		save.open(dir + '\\tagListe' + id + '.txt', File.WRITE)
 		save.store_line(tagsort)
 		save.close()
+
 
 # Knapp for generering av lister
 func _on_GenererLister_pressed():
@@ -153,6 +161,7 @@ func _on_GenererLister_pressed():
 	if $MC/VBC/Taghub.pressed: # Åpner TagHub
 		OS.shell_open("https://echohub.equinor.com/")
 
+
 # Knapp for last/søk på nytt
 func _on_Reload_pressed():
 	TAGL = []
@@ -161,6 +170,7 @@ func _on_Reload_pressed():
 	TAGR = []
 	TAG = []
 	search()
+
 
 # TODO: lage funksjon for å velge hvor filene skal opprettes
 func new_dir(path):
