@@ -15,7 +15,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="tagfinder"
+config/name="TagFinder"
 run/main_scene="res://TagFinder.tscn"
 boot_splash/image="res://GdTTaIrf.png"
 config/icon="res://icon.png"
