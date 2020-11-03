@@ -88,6 +88,7 @@ func fill_scrollbox():
 		a.indexP = tag
 		a.connect("delte_tag", self, "_on_Delete_tag")
 		a.connect("open_stid", self, "_on_Open_STID")
+		a.connect("open_echo", self, "_on_Open_Echo")
 		$MC/VBC/TagListe/VBC.add_child(a)
 
 
@@ -132,6 +133,15 @@ func _on_Delete_tag(indexP):
 # Funksjon for å åpne et STID søk med valgt TAG
 func _on_Open_STID(index):
 	OS.shell_open("https://stid.equinor.com/JSV/tag/" + str(index))
+
+
+# Funkjson for å åpne et søk på valgt tag i Echo
+func _on_Open_Echo(index):
+	var plant
+	if index.begins_with("A"):
+		plant = "JSA"
+	OS.shell_open("echo://tag/?tag=" + str(index) + "&plant=" + str(plant))
+
 
 # Funksjon for å lagre tag i .txt filer
 func save(text, id):
