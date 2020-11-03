@@ -1,6 +1,6 @@
 extends Control
 
-var version = "v2.1"
+var version = "v2.2"
 var dir = OS.get_system_dir(2) # Får adressen til dokumenter. Brukes til lagring
 
 var re = RegEx.new()
@@ -17,6 +17,7 @@ var TAGlabel = preload("res://Tagbutton.tscn") # Label som viser funnede tag i s
 
 
 func _ready():
+	$Version.text = version
 	search() # Kjører et søk ved oppstart av programmet
 
 
@@ -140,7 +141,43 @@ func _on_Open_Echo(index):
 	var plant
 	if index.begins_with("A"):
 		plant = "JSA"
+	elif index.begins_with("D"):
+		plant = "JSD"
+	elif index.begins_with("R"):
+		plant = "JSR"
+	else:
+		plant = "JSL"
 	OS.shell_open("echo://tag/?tag=" + str(index) + "&plant=" + str(plant))
+
+
+func _on_Open_Echo_all(platform):
+	var tag : PoolStringArray = []
+	var echoTag
+	var plant
+	
+	if platform == 0:
+		plant = "JSL"
+		for t in TAGL:
+			t = t.lstrip("0123456789.-")
+			tag.append(t)
+	elif platform == 1:
+		plant = "JSA"
+		for t in TAGA:
+			t = t.lstrip("0123456789.-")
+			tag.append(t)
+	elif platform == 2:
+		plant = "JSD"
+		for t in TAGD:
+			t = t.lstrip("0123456789.-")
+			tag.append(t)
+	elif platform == 3:
+		plant = "JSR"
+		for t in TAGR:
+			t = t.lstrip("0123456789.-")
+			tag.append(t)
+	
+	echoTag = tag.join(",")
+	OS.shell_open("echo://tag/?tag=" + str(echoTag) + "&plant=" + str(plant))
 
 
 # Funksjon for å lagre tag i .txt filer
