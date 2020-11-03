@@ -24,6 +24,7 @@ func _ready():
 #Søker gjennom text fra utklipsstavlen og skjekker dem opp mot RegEx
 #Alle matcher blir lagt i en liste, sortert, telt, og plassert i scrollboxen
 func search():
+	$MC/VBC/EchoAll.selected = 4
 	var charct = 0
 	var text = OS.get_clipboard() # Får teksten fra clipboardet til PCen
 	charct = text.length()
@@ -49,6 +50,7 @@ func search():
 	separate_tag()
 	count_tag()
 	fill_scrollbox()
+	refresh_echo_all()
 	$MC/VBC/Label.text = 'Søkte gjennom ' + str(charct) + ' tegn'
 
 
@@ -75,7 +77,7 @@ func count_tag():
 	var dp = len(TAGD)
 	var rp = len(TAGR)
 	var tot = len(TAG)
-	$MC/VBC/TAG.text = 'Fant ' + str(tot) + ' TAG. LQ: ' + str(lq) + ' P1: ' + str(p1) + ' DP: ' + str(dp) + ' RP: ' + str(rp)
+	$MC/VBC/TAG.text = 'Fant ' + str(tot) + ' tag. LQ: ' + str(lq) + ' P1: ' + str(p1) + ' DP: ' + str(dp) + ' RP: ' + str(rp)
 
 
 # Fyller scrollboxen med tagene som er funnet
@@ -178,6 +180,8 @@ func _on_Open_Echo_all(platform):
 	
 	echoTag = tag.join(",")
 	OS.shell_open("echo://tag/?tag=" + str(echoTag) + "&plant=" + str(plant))
+	$MC/VBC/EchoAll.selected = 4
+	print("yy")
 
 
 # Funksjon for å lagre tag i .txt filer
@@ -222,3 +226,22 @@ func _on_Reload_pressed():
 # TODO: lage funksjon for å velge hvor filene skal opprettes
 func new_dir(path):
 	dir = Directory.new()
+
+
+func refresh_echo_all():
+	if TAGL.size() <= 0:
+		$MC/VBC/EchoAll.set_item_disabled(0, true)
+	else:
+		$MC/VBC/EchoAll.set_item_disabled(0, false)
+	if TAGA.size() <= 0:
+		$MC/VBC/EchoAll.set_item_disabled(1, true)
+	else:
+		$MC/VBC/EchoAll.set_item_disabled(1, false)
+	if TAGD.size() <= 0:
+		$MC/VBC/EchoAll.set_item_disabled(2, true)
+	else:
+		$MC/VBC/EchoAll.set_item_disabled(2, false)
+	if TAGR.size() <= 0:
+		$MC/VBC/EchoAll.set_item_disabled(3, true)
+	else:
+		$MC/VBC/EchoAll.set_item_disabled(3, false)
