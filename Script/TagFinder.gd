@@ -1,11 +1,12 @@
 extends Control
 
-var version = "v2.2"
+var version = "v2.21"
 var dir = OS.get_system_dir(2) # Får adressen til dokumenter. Brukes til lagring
 
-var re = RegEx.new()
-var manuell = "[0-9]{0,4}-?[A-Z]-[A-Z]\\w+-[0-9]\\d+" # Finner tag med format 1903-A-VG23-0489B med og uten prefix
-var vanlig = "[0-9]{0,4}-?[A-Z]{1}-[0-9]{2}[A-Z]{2,4}[0-9]{3,4}[A-D]?" # Finner 1900-A-23PSV2671B med og uten prefix
+# Text match søk. https://regex101.com/ for mer info
+var rex = RegEx.new()
+var manuell = "(?:190\\d-)?[ABDLR]{1}-[A-Z]{2,4}[0-9]{2}-[0-9]+[A-F]?" # Finner tag med format 1903-A-VG23-0489B med og uten prefix
+var vanlig = "(?:190\\d-)?[ABDLR]{1}-[0-9]{2}[A-Z]{2,4}[0-9]{3,4}[A-F]?" # Finner 1900-A-23PSV2671B med og uten prefix
 
 var TAG =  []   # Liste for alle tagnummer
 var TAGL = []   # Liste for LQ tagnummer
@@ -28,16 +29,16 @@ func search():
 	var charct = 0
 	var text = OS.get_clipboard() # Får teksten fra clipboardet til PCen
 	charct = text.length()
-	re.compile(vanlig)
-	for result in re.search_all(text):
+	rex.compile(vanlig)
+	for result in rex.search_all(text):
 		var t = result.get_string()
 		t = t.lstrip("0123456789-")
 		if TAG.has(t):
 			pass
 		else:
 			TAG.append(t)
-	re.compile(manuell)
-	for result in re.search_all(text):
+	rex.compile(manuell)
+	for result in rex.search_all(text):
 		var t = result.get_string()
 		t = t.lstrip("0123456789-")
 		if TAG.has(t):
