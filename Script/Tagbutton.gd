@@ -36,3 +36,8 @@ func _on_STID_pressed():
 
 func _on_Echo_pressed():
 	emit_signal("open_echo", index)
+
+
+func _on_Button_pressed():
+	rect_size.y *= 2
+
