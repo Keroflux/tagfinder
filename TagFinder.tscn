@@ -1,8 +1,9 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://TitilliumWeb-SemiBold.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://TitilliumWeb-Regular.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Script/TagFinder.gd" type="Script" id=3]
+[ext_resource path="res://Button.tscn" type="PackedScene" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 14
@@ -350,26 +351,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Reload" type="Button" parent="MC/VBC/HBC"]
-margin_left = 204.0
-margin_right = 325.0
-margin_bottom = 30.0
-rect_min_size = Vector2( 100, 20 )
-hint_tooltip = "Lagrer .txt fil med TAG i
-Documents"
-focus_mode = 0
-custom_styles/hover = SubResource( 13 )
-custom_styles/pressed = SubResource( 14 )
-custom_styles/normal = SubResource( 12 )
-custom_fonts/font = SubResource( 8 )
-custom_colors/font_color = Color( 0.239216, 0.239216, 0.239216, 1 )
-custom_colors/font_color_hover = Color( 0.239216, 0.239216, 0.239216, 1 )
-custom_colors/font_color_pressed = Color( 0.239216, 0.239216, 0.239216, 1 )
-enabled_focus_mode = 0
-text = "   Søke etter tag  "
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Reload" parent="MC/VBC/HBC" instance=ExtResource( 4 )]
 
 [node name="Version" type="Label" parent="."]
 anchor_top = 1.0

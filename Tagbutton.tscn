@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Prototype.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Script/Tagbutton.gd" type="Script" id=2]
+[ext_resource path="res://Button.tscn" type="PackedScene" id=3]
+[ext_resource path="res://x-mark-3-24.png" type="Texture" id=4]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.113725, 0.666667, 0.796078, 1 )
@@ -40,48 +42,49 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Delete" type="Button" parent="."]
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_left = 8.0
-margin_top = -12.0
-margin_right = 65.0
-margin_bottom = 12.0
-text = "DELETE"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="STID" type="Button" parent="."]
+[node name="STID" parent="." instance=ExtResource( 3 )]
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -50.0001
-margin_top = -12.0
-margin_right = -9.00006
-margin_bottom = 12.0
-hint_tooltip = "Åpne tag i STID"
+margin_left = -54.0
+margin_top = -15.0
+margin_right = -3.99997
+margin_bottom = 15.0
+rect_min_size = Vector2( 50, 20 )
+hint_tooltip = "Åpner tag i STID"
+custom_colors/font_color = Color( 1, 0.0705882, 0.203922, 1 )
+custom_colors/font_color_hover = Color( 1, 0.0705882, 0.203922, 1 )
+custom_colors/font_color_pressed = Color( 1, 0.0705882, 0.203922, 1 )
 text = "STID"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Echo" type="Button" parent="."]
+[node name="Echo" parent="." instance=ExtResource( 3 )]
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -98.0
-margin_top = -12.0
-margin_right = -56.0
-margin_bottom = 12.0
-hint_tooltip = "Åpne tag i Echo 3D modell"
-text = "Echo"
+margin_left = -104.0
+margin_top = -15.0
+margin_right = -54.0
+margin_bottom = 15.0
+rect_min_size = Vector2( 50, 20 )
+hint_tooltip = "Åpner tag i echo"
+custom_colors/font_color = Color( 1, 0.0705882, 0.203922, 1 )
+custom_colors/font_color_hover = Color( 1, 0.0705882, 0.203922, 1 )
+custom_colors/font_color_pressed = Color( 1, 0.0705882, 0.203922, 1 )
+text = "echo"
+
+[node name="Delete" type="TextureButton" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+hint_tooltip = "Slett tag"
+texture_normal = ExtResource( 4 )
+expand = true
+stretch_mode = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
-[connection signal="pressed" from="Delete" to="." method="_on_Delete_pressed"]
 [connection signal="pressed" from="STID" to="." method="_on_STID_pressed"]
 [connection signal="pressed" from="Echo" to="." method="_on_Echo_pressed"]
+[connection signal="pressed" from="Delete" to="." method="_on_Delete_pressed"]
