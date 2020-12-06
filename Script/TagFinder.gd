@@ -2,6 +2,8 @@ extends Control
 
 var version = "v2.2.2"
 var dir = OS.get_system_dir(2) # Får adressen til dokumenter. Brukes til lagring
+var time
+var totalTime
 
 # Text match søk. https://regex101.com/ for mer info
 var rex = RegEx.new()
@@ -26,6 +28,7 @@ func _ready():
 #Søker gjennom text fra utklipsstavlen og skjekker dem opp mot RegEx
 #Alle matcher blir lagt i en liste, sortert, telt, og plassert i scrollboxen
 func search():
+	time = OS.get_ticks_msec()
 	$MC/VBC/EchoAll.selected = 5
 	var charct = 0
 	var text = OS.get_clipboard() # Får teksten fra clipboardet til PCen
@@ -53,7 +56,8 @@ func search():
 	count_tag()
 	fill_scrollbox()
 	refresh_echo_all()
-	$MC/VBC/Label.text = 'Søkte gjennom ' + str(charct) + ' tegn'
+	totalTime = (OS.get_ticks_msec() - time) / 1000.0 # Registrer tiden søke tok i sekunder
+	$MC/VBC/Label.text = "Søkte gjennom " + str(charct) + " tegn på " + str(totalTime) + " sek"
 
 
 # Legger til prefix på tag om det er valgt
