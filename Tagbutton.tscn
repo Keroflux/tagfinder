@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Prototype.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://TitilliumWeb-SemiBold.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Script/Tagbutton.gd" type="Script" id=2]
 [ext_resource path="res://Button.tscn" type="PackedScene" id=3]
 [ext_resource path="res://x-mark-3-24.png" type="Texture" id=4]
@@ -9,19 +9,22 @@
 bg_color = Color( 0.113725, 0.666667, 0.796078, 1 )
 
 [sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0.556863, 0.529412, 0.113725, 1 )
+bg_color = Color( 0.870588, 0.929412, 0.933333, 1 )
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
+border_color = Color( 0.529412, 0.572549, 0.603922, 1 )
 
 [sub_resource type="DynamicFont" id=3]
-size = 18
+size = 20
 font_data = ExtResource( 1 )
 
 [node name="Tagbutton" type="Control"]
 anchor_right = 1.0
-rect_min_size = Vector2( 250, 40 )
+margin_right = 3.05176e-05
+margin_bottom = 40.0
+rect_min_size = Vector2( 250, 45 )
 size_flags_horizontal = 3
 size_flags_vertical = 0
 script = ExtResource( 2 )
@@ -37,6 +40,8 @@ size_flags_vertical = 3
 custom_styles/hover = SubResource( 1 )
 custom_styles/normal = SubResource( 2 )
 custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
 text = "A-23PT0630"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -75,8 +80,11 @@ custom_colors/font_color_pressed = Color( 1, 0.0705882, 0.203922, 1 )
 text = "echo"
 
 [node name="Delete" type="TextureButton" parent="."]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_top = -20.0
 margin_right = 40.0
-margin_bottom = 40.0
+margin_bottom = 20.0
 hint_tooltip = "Slett tag"
 texture_normal = ExtResource( 4 )
 expand = true
