@@ -65,16 +65,16 @@ corner_radius_bottom_right = 14
 corner_radius_bottom_left = 14
 corner_detail = 16
 
-[sub_resource type="DynamicFont" id=11]
-font_data = ExtResource( 2 )
-
 [sub_resource type="DynamicFont" id=7]
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=15]
+[sub_resource type="DynamicFont" id=8]
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=9]
 font_data = ExtResource( 1 )
 
-[sub_resource type="StyleBoxFlat" id=13]
+[sub_resource type="StyleBoxFlat" id=10]
 bg_color = Color( 0.705882, 0.733333, 0.752941, 1 )
 border_width_left = 2
 border_width_top = 2
@@ -87,7 +87,7 @@ corner_radius_bottom_right = 14
 corner_radius_bottom_left = 14
 corner_detail = 16
 
-[sub_resource type="StyleBoxFlat" id=14]
+[sub_resource type="StyleBoxFlat" id=11]
 bg_color = Color( 0, 0.435294, 0.47451, 1 )
 border_width_left = 2
 border_width_top = 2
@@ -113,10 +113,10 @@ corner_radius_bottom_right = 14
 corner_radius_bottom_left = 14
 corner_detail = 16
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=13]
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=10]
+[sub_resource type="DynamicFont" id=14]
 size = 20
 font_data = ExtResource( 1 )
 
@@ -221,13 +221,13 @@ focus_mode = 0
 custom_styles/hover = SubResource( 4 )
 custom_styles/pressed = SubResource( 5 )
 custom_styles/normal = SubResource( 6 )
-custom_fonts/font = SubResource( 11 )
+custom_fonts/font = SubResource( 7 )
 custom_colors/font_color = Color( 0.239216, 0.239216, 0.239216, 1 )
 custom_colors/font_color_hover = Color( 0.239216, 0.239216, 0.239216, 1 )
 enabled_focus_mode = 0
 text = "P1"
 align = 1
-items = [ "LQ", null, false, 0, null, "P1", null, false, 1, null, "DP", null, false, 2, null, "RP", null, false, 3, null, "Åpne alle tag i Echo (max 19 tag)", null, true, 4, null ]
+items = [ "LQ", null, false, 0, null, "P1", null, false, 1, null, "DP", null, false, 2, null, "RP", null, false, 3, null, "P2", null, false, 4, null, "Åpne alle tag i Echo (max 19 tag)", null, true, 5, null ]
 selected = 1
 
 [node name="Multifile" type="CheckBox" parent="MC/VBC"]
@@ -240,7 +240,7 @@ Lagrer separate filer per platform.
 focus_mode = 0
 size_flags_horizontal = 0
 size_flags_vertical = 0
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
 custom_constants/check_vadjust = 0
 pressed = true
 enabled_focus_mode = 0
@@ -257,7 +257,7 @@ margin_left = 12.0
 margin_top = -11.014
 margin_right = 131.0
 margin_bottom = 14.986
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 9 )
 text = "Fjern 1900 prefix"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -272,7 +272,7 @@ Tar bort 190x fra TAG"
 focus_mode = 0
 size_flags_horizontal = 0
 size_flags_vertical = 0
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
 pressed = true
 enabled_focus_mode = 0
 __meta__ = {
@@ -288,7 +288,7 @@ margin_left = 12.0
 margin_top = -14.014
 margin_right = 221.0
 margin_bottom = 11.986
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 9 )
 text = "Separer filer for hver platform"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -302,7 +302,7 @@ hint_tooltip = "Åpener EchoHub når lister blir generert"
 focus_mode = 0
 size_flags_horizontal = 0
 size_flags_vertical = 0
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
 enabled_focus_mode = 0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -317,7 +317,7 @@ margin_left = 12.0
 margin_top = -11.994
 margin_right = 221.0
 margin_bottom = 14.006
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 9 )
 text = "Åpne EchoHub ved generering"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -338,10 +338,10 @@ rect_min_size = Vector2( 100, 20 )
 hint_tooltip = "Lagrer .txt fil med TAG i
 Documents"
 focus_mode = 0
-custom_styles/hover = SubResource( 13 )
-custom_styles/pressed = SubResource( 14 )
+custom_styles/hover = SubResource( 10 )
+custom_styles/pressed = SubResource( 11 )
 custom_styles/normal = SubResource( 12 )
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 13 )
 custom_colors/font_color = Color( 0.239216, 0.239216, 0.239216, 1 )
 custom_colors/font_color_hover = Color( 0.239216, 0.239216, 0.239216, 1 )
 custom_colors/font_color_pressed = Color( 0.239216, 0.239216, 0.239216, 1 )
@@ -370,7 +370,7 @@ margin_left = -90.0
 margin_top = -4.0
 margin_right = -5.0
 margin_bottom = 27.0
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 14 )
 custom_colors/font_color = Color( 1, 0.0705882, 0.262745, 1 )
 text = "TagFinder"
 __meta__ = {

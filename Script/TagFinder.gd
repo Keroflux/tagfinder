@@ -1,11 +1,11 @@
 extends Control
 
-var version = "v2.21"
+var version = "v2.2.2"
 var dir = OS.get_system_dir(2) # Får adressen til dokumenter. Brukes til lagring
 
 # Text match søk. https://regex101.com/ for mer info
 var rex = RegEx.new()
-var manuell = "(?:190\\d-)?[ABDLR]{1}-[A-Z]{2,4}[0-9]{2}-[0-9]+[A-F]?" # Finner tag med format 1903-A-VG23-0489B med og uten prefix
+var manuell = "(?:190\\d-)?[ABDLR]{1}-[A-Z]{2,4}[0-9]{2}-[0-9]+[A-F]?" # Finner tag med format 1904-B-VG23-0489B med og uten prefix
 var vanlig = "(?:190\\d-)?[ABDLR]{1}-[0-9]{2}[A-Z]{2,4}[0-9]{3,4}[A-F]?" # Finner 1900-A-23PSV2671B med og uten prefix
 
 var TAG =  []   # Liste for alle tagnummer
@@ -13,6 +13,7 @@ var TAGL = []   # Liste for LQ tagnummer
 var TAGA = []   # Liste for P1 tagnummer
 var TAGD = []   # Liste for DP tagnummer
 var TAGR = []   # Liste for RP tagnummer
+var TAGB = []   # Liste for P2 tagnummer
 
 var TAGlabel = preload("res://Tagbutton.tscn") # Label som viser funnede tag i scrollboxen
 
@@ -25,7 +26,7 @@ func _ready():
 #Søker gjennom text fra utklipsstavlen og skjekker dem opp mot RegEx
 #Alle matcher blir lagt i en liste, sortert, telt, og plassert i scrollboxen
 func search():
-	$MC/VBC/EchoAll.selected = 4
+	$MC/VBC/EchoAll.selected = 5
 	var charct = 0
 	var text = OS.get_clipboard() # Får teksten fra clipboardet til PCen
 	charct = text.length()
@@ -68,6 +69,8 @@ func add_prefix():
 				t = "1902-" + t
 			elif t.begins_with('R'):
 				t = "1903-" + t
+			elif t.begins_with('B'):
+				t = "1904-" + t
 			TAG[tag] = t
 
 
@@ -77,8 +80,9 @@ func count_tag():
 	var p1 = len(TAGA)
 	var dp = len(TAGD)
 	var rp = len(TAGR)
+	var p2 = len(TAGB)
 	var tot = len(TAG)
-	$MC/VBC/TAG.text = 'Fant ' + str(tot) + ' tag. LQ: ' + str(lq) + ' P1: ' + str(p1) + ' DP: ' + str(dp) + ' RP: ' + str(rp)
+	$MC/VBC/TAG.text = 'Fant ' + str(tot) + ' tag. LQ: ' + str(lq) + ' P1: ' + str(p1) + ' DP: ' + str(dp) + ' RP: ' + str(rp) + ' P2: ' + str(rp)
 
 
 # Fyller scrollboxen med tagene som er funnet
@@ -102,6 +106,7 @@ func separate_tag():
 	TAGA = []
 	TAGD = []
 	TAGR = []
+	TAGB = []
 	
 	if $MC/VBC/Prefix.pressed: 
 		for tag in TAG:
@@ -113,6 +118,8 @@ func separate_tag():
 				TAGD.append(tag)
 			if tag.begins_with('R') and not TAGR.has(tag):
 				TAGR.append(tag)
+			if tag.begins_with('B') and not TAGB.has(tag):
+				TAGB.append(tag)
 	else:
 		for tag in TAG:
 			if tag[5].begins_with('L') and not TAGL.has(tag):
@@ -123,6 +130,8 @@ func separate_tag():
 				TAGD.append(tag)
 			if tag[5].begins_with('R') and not TAGR.has(tag):
 				TAGR.append(tag)
+			if tag[5].begins_with('B') and not TAGB.has(tag):
+				TAGB.append(tag)
 
 
 # Funkjson for å slette TAG før lagring
@@ -142,6 +151,8 @@ func _on_Open_STID(index):
 # Funkjson for å åpne et søk på valgt tag i Echo
 func _on_Open_Echo(index):
 	var plant
+	if index.begins_with("L"):
+		plant = "JSL"
 	if index.begins_with("A"):
 		plant = "JSA"
 	elif index.begins_with("D"):
@@ -149,7 +160,7 @@ func _on_Open_Echo(index):
 	elif index.begins_with("R"):
 		plant = "JSR"
 	else:
-		plant = "JSL"
+		plant = "JSB"
 	OS.shell_open("echo://tag/?tag=" + str(index) + "&plant=" + str(plant))
 
 
@@ -178,11 +189,15 @@ func _on_Open_Echo_all(platform):
 		for t in TAGR:
 			t = t.lstrip("0123456789.-")
 			tag.append(t)
+	elif platform == 4:
+		plant = "JSB"
+		for t in TAGB:
+			t = t.lstrip("0123456789.-")
+			tag.append(t)
 	
 	echoTag = tag.join(",")
 	OS.shell_open("echo://tag/?tag=" + str(echoTag) + "&plant=" + str(plant))
-	$MC/VBC/EchoAll.selected = 4
-	print("yy")
+	$MC/VBC/EchoAll.selected = 5
 
 
 # Funksjon for å lagre tag i .txt filer
@@ -203,6 +218,7 @@ func _on_GenererLister_pressed():
 		save(TAGA, 'JSA')
 		save(TAGD, 'JSD')
 		save(TAGR, 'JSR')
+		save(TAGB, 'JSB')
 	
 	if not $MC/VBC/Multifile.pressed: # Lagrer felles liste
 		save(TAG, 'JSF')
@@ -220,6 +236,7 @@ func _on_Reload_pressed():
 	TAGA = []
 	TAGD = []
 	TAGR = []
+	TAGB = []
 	TAG = []
 	search()
 
@@ -246,3 +263,7 @@ func refresh_echo_all():
 		$MC/VBC/EchoAll.set_item_disabled(3, true)
 	else:
 		$MC/VBC/EchoAll.set_item_disabled(3, false)
+	if TAGB.size() <= 0:
+		$MC/VBC/EchoAll.set_item_disabled(4, true)
+	else:
+		$MC/VBC/EchoAll.set_item_disabled(4, false)
