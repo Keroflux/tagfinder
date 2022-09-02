@@ -1,9 +1,10 @@
 extends Control
 
-var version = "v2.2.2"
+var version = "v3.0"
 var dir = OS.get_system_dir(2) # Får adressen til dokumenter. Brukes til lagring
 var time
 var totalTime
+var HTMLsearch = true
 
 # Text match søk. https://regex101.com/ for mer info
 var rex = RegEx.new()
@@ -22,7 +23,7 @@ var TAGlabel = preload("res://Tagbutton.tscn") # Label som viser funnede tag i s
 
 func _ready():
 	$Version.text = version
-	search() # Kjører et søk ved oppstart av programmet
+#	search() # Kjører et søk ved oppstart av programmet
 
 
 #Søker gjennom text fra utklipsstavlen og skjekker dem opp mot RegEx
@@ -86,7 +87,7 @@ func count_tag():
 	var rp = len(TAGR)
 	var p2 = len(TAGB)
 	var tot = len(TAG)
-	$MC/VBC/TAG.text = 'Fant ' + str(tot) + ' tag. LQ: ' + str(lq) + ' P1: ' + str(p1) + ' DP: ' + str(dp) + ' RP: ' + str(rp) + ' P2: ' + str(rp)
+	$MC/VBC/TAG.text = 'Fant ' + str(tot) + ' tag. LQ: ' + str(lq) + ' P1: ' + str(p1) + ' DP: ' + str(dp) + ' RP: ' + str(rp) + ' P2: ' + str(p2)
 
 
 # Fyller scrollboxen med tagene som er funnet
@@ -147,27 +148,6 @@ func _on_Delete_tag(indexP):
 	count_tag()
 
 
-# Funksjon for å åpne et STID søk med valgt TAG
-func _on_Open_STID(index):
-	OS.shell_open("https://stid.equinor.com/JSV/tag/" + str(index))
-
-
-# Funkjson for å åpne et søk på valgt tag i Echo
-func _on_Open_Echo(index):
-	var plant
-	if index.begins_with("L"):
-		plant = "JSL"
-	if index.begins_with("A"):
-		plant = "JSA"
-	elif index.begins_with("D"):
-		plant = "JSD"
-	elif index.begins_with("R"):
-		plant = "JSR"
-	else:
-		plant = "JSB"
-	OS.shell_open("echo://tag/?tag=" + str(index) + "&plant=" + str(plant))
-
-
 func _on_Open_Echo_all(platform):
 	var tag : PoolStringArray = []
 	var echoTag
@@ -210,9 +190,10 @@ func save(text, id):
 		var tag = PoolStringArray(text)
 		var tagsort = tag.join('\n')
 		var save = File.new()
-		save.open(dir + '\\tagListe' + id + '.txt', File.WRITE)
-		save.store_line(tagsort)
-		save.close()
+#		save.open(dir + '\\tagListe' + id + '.txt', File.WRITE)
+#		save.store_line(tagsort)
+#		save.close()
+		JavaScript.download_buffer(tagsort.to_utf8(), id + ".txt")
 
 
 # Knapp for generering av lister
@@ -227,8 +208,8 @@ func _on_GenererLister_pressed():
 	if not $MC/VBC/Multifile.pressed: # Lagrer felles liste
 		save(TAG, 'JSF')
 	
-	$MC/VBC/Label.text = 'Lister opprettet i ' + dir
-	OS.shell_open(dir)
+	$MC/VBC/Label.text = 'Lister opprettet i downloads'
+#	OS.shell_open(dir)
 	
 	if $MC/VBC/Taghub.pressed: # Åpner TagHub
 		OS.shell_open("https://echohub.equinor.com/")
@@ -243,7 +224,18 @@ func _on_Reload_pressed():
 	TAGB = []
 	TAG = []
 	search()
+	$Timer.start()
 
+
+# Må kjøre to søk i HTML5 for å oppdatere clip board...
+func HTML_reload():
+	TAGL = []
+	TAGA = []
+	TAGD = []
+	TAGR = []
+	TAGB = []
+	TAG = []
+	search()
 
 # TODO: lage funksjon for å velge hvor filene skal opprettes
 func new_dir(path):

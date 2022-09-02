@@ -26,6 +26,9 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color( 0.870588, 0.929412, 0.933333, 1 )
 
+[sub_resource type="DynamicFont" id=7]
+font_data = ExtResource( 2 )
+
 [sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0.705882, 0.733333, 0.752941, 1 )
 border_width_left = 2
@@ -65,13 +68,13 @@ corner_radius_bottom_right = 14
 corner_radius_bottom_left = 14
 corner_detail = 16
 
-[sub_resource type="DynamicFont" id=7]
-font_data = ExtResource( 2 )
-
 [sub_resource type="DynamicFont" id=8]
 font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=9]
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=13]
 font_data = ExtResource( 1 )
 
 [sub_resource type="StyleBoxFlat" id=10]
@@ -113,9 +116,6 @@ corner_radius_bottom_right = 14
 corner_radius_bottom_left = 14
 corner_detail = 16
 
-[sub_resource type="DynamicFont" id=13]
-font_data = ExtResource( 1 )
-
 [sub_resource type="DynamicFont" id=14]
 size = 20
 font_data = ExtResource( 1 )
@@ -124,9 +124,6 @@ font_data = ExtResource( 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
@@ -146,9 +143,6 @@ rect_rotation = 5.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color( 0.196078, 0.196078, 0.196078, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="MC" type="MarginContainer" parent="."]
 anchor_right = 1.0
@@ -159,9 +153,6 @@ custom_constants/margin_right = 20
 custom_constants/margin_top = 20
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBC" type="VBoxContainer" parent="MC"]
 margin_left = 20.0
@@ -218,12 +209,12 @@ margin_bottom = 274.0
 rect_min_size = Vector2( 0, 30 )
 hint_tooltip = "Max 19 tag!"
 focus_mode = 0
+custom_colors/font_color = Color( 0.239216, 0.239216, 0.239216, 1 )
+custom_colors/font_color_hover = Color( 0.239216, 0.239216, 0.239216, 1 )
+custom_fonts/font = SubResource( 7 )
 custom_styles/hover = SubResource( 4 )
 custom_styles/pressed = SubResource( 5 )
 custom_styles/normal = SubResource( 6 )
-custom_fonts/font = SubResource( 7 )
-custom_colors/font_color = Color( 0.239216, 0.239216, 0.239216, 1 )
-custom_colors/font_color_hover = Color( 0.239216, 0.239216, 0.239216, 1 )
 enabled_focus_mode = 0
 text = "P1"
 align = 1
@@ -240,8 +231,8 @@ Lagrer separate filer per platform.
 focus_mode = 0
 size_flags_horizontal = 0
 size_flags_vertical = 0
-custom_fonts/font = SubResource( 8 )
 custom_constants/check_vadjust = 0
+custom_fonts/font = SubResource( 8 )
 pressed = true
 enabled_focus_mode = 0
 __meta__ = {
@@ -319,9 +310,6 @@ margin_right = 221.0
 margin_bottom = 14.006
 custom_fonts/font = SubResource( 9 )
 text = "Åpne EchoHub ved generering"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HBC" type="HBoxContainer" parent="MC/VBC"]
 margin_top = 380.0
@@ -338,13 +326,13 @@ rect_min_size = Vector2( 100, 20 )
 hint_tooltip = "Lagrer .txt fil med TAG i
 Documents"
 focus_mode = 0
-custom_styles/hover = SubResource( 10 )
-custom_styles/pressed = SubResource( 11 )
-custom_styles/normal = SubResource( 12 )
-custom_fonts/font = SubResource( 13 )
 custom_colors/font_color = Color( 0.239216, 0.239216, 0.239216, 1 )
 custom_colors/font_color_hover = Color( 0.239216, 0.239216, 0.239216, 1 )
 custom_colors/font_color_pressed = Color( 0.239216, 0.239216, 0.239216, 1 )
+custom_fonts/font = SubResource( 13 )
+custom_styles/hover = SubResource( 10 )
+custom_styles/pressed = SubResource( 11 )
+custom_styles/normal = SubResource( 12 )
 enabled_focus_mode = 0
 text = "  Generer lister  "
 __meta__ = {
@@ -359,9 +347,6 @@ anchor_bottom = 1.0
 margin_top = -14.0
 margin_right = 44.0
 text = "v2.1"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label" type="Label" parent="."]
 anchor_left = 1.0
@@ -370,14 +355,20 @@ margin_left = -90.0
 margin_top = -4.0
 margin_right = -5.0
 margin_bottom = 27.0
-custom_fonts/font = SubResource( 14 )
 custom_colors/font_color = Color( 1, 0.0705882, 0.262745, 1 )
+custom_fonts/font = SubResource( 14 )
 text = "TagFinder"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.01
+one_shot = true
+
 [connection signal="item_selected" from="MC/VBC/EchoAll" to="." method="_on_Open_Echo_all"]
 [connection signal="pressed" from="MC/VBC/Multifile" to="." method="_on_Reload_pressed"]
 [connection signal="pressed" from="MC/VBC/Prefix" to="." method="_on_Reload_pressed"]
 [connection signal="pressed" from="MC/VBC/HBC/GenererLister" to="." method="_on_GenererLister_pressed"]
 [connection signal="pressed" from="MC/VBC/HBC/Reload" to="." method="_on_Reload_pressed"]
+[connection signal="timeout" from="Timer" to="." method="HTML_reload"]

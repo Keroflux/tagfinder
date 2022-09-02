@@ -1,8 +1,6 @@
 extends Control
 
 signal delte_tag
-signal open_stid
-signal open_echo
 var index = -1
 var indexP = -1
 
@@ -47,19 +45,49 @@ func _ready():
 		$Button.set("custom_styles/normal", a)
 		$Button.set("custom_styles/hover", b)
 
+
 func _on_Delete_pressed():
 	emit_signal("delte_tag", indexP)
 
 
 func _on_STID_pressed():
-	emit_signal("open_stid", index)
+	OS.shell_open("https://stid.equinor.com/JSV/tag/" + str(index))
 
 
 func _on_Echo_pressed():
-	emit_signal("open_echo", index)
+	var plant
+	if index.begins_with("L"):
+		plant = "JSL"
+	if index.begins_with("A"):
+		plant = "JSA"
+	elif index.begins_with("D"):
+		plant = "JSD"
+	elif index.begins_with("R"):
+		plant = "JSR"
+	else:
+		plant = "JSB"
+	OS.shell_open("echo://tag/?tag=" + str(index) + "&plant=" + str(plant))
 
 
 func _on_Button_pressed():
 	#rect_min_size.y = 60
 	get_parent().queue_sort()
 
+
+func _on_SAP_pressed():
+	var plant
+	if index.begins_with("L"):
+		plant = "1900-"
+	if index.begins_with("A"):
+		plant = "1901-"
+	elif index.begins_with("D"):
+		plant = "1902-"
+	elif index.begins_with("R"):
+		plant = "1903-"
+	else:
+		plant = "1904-"
+	OS.shell_open("https://p03web.statoil.no/sap/bc/webdynpro/sap/zompm_lookup_eq_info?run=x&tplnr=" + plant + str(index))
+
+
+func _on_Hub_pressed():
+	OS.shell_open("https://echo.equinor.com/tags?instCode=JSV&tagNo=" + str(index))
